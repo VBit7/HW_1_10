@@ -7,35 +7,69 @@ from collections import UserDict
 
 
 class Field:
+    """
+    Базовий клас для полів запису.
+    Буде батьківським для всіх полів, у ньому реалізується логіка загальна для всіх полів
+    """
     def __init__(self, value):
         self.value = value
 
     def __str__(self):
         return str(self.value)
 
+
 class Name(Field):
+    """
+    Клас для зберігання імені контакту.
+    Обов'язкове поле.
+    """
+    
     # реалізація класу
+
     pass
+
 
 class Phone(Field):
+    """
+    Клас для зберігання номера телефону.
+    Має валідацію формату (10 цифр).
+    Необов'язкове поле з телефоном та таких один запис Record може містити декілька.
+    """
+    
     # реалізація класу
+                # Реалізовано валідацію номера телефону (має бути 10 цифр)
     pass
 
+
 class Record:
+    """
+    Клас для зберігання інформації про контакт, включаючи ім'я та список телефонів.
+    Відповідає за логіку додавання/видалення/редагування необов'язкових полів та зберігання обов'язкового поля Name
+    """
+    
     def __init__(self, name):
         self.name = Name(name)
         self.phones = []
     
-    def add_phone(self):
+    # Додавання телефонів
+    def add_phone(self, x):
+        self.x = x
         pass
 
-    def remove_phone(self):
+    # Видалення телефонів
+    def remove_phone(self, a):
+        self.a = a
         pass
 
-    def edit_phone(self):
+    # Редагування телефонів
+    def edit_phone(self, s, d):
+        self.s = s
+        self.d = d
         pass
 
-    def find_phone(self):
+    # Пошук телефону
+    def find_phone(self, y):
+        self.y = y
         pass
 
     def __str__(self):
@@ -43,15 +77,28 @@ class Record:
 
 
 class AddressBook(UserDict):
+    """
+    Клас для зберігання та управління записами.
+    Успадковується від UserDict, та містить логіку пошуку за записами до цього класу
+    """
 
-    def add_record(self):
+    # Додавання записів
+    def add_record(self, f):
+        self.f = f
         pass
 
-    def find(self):
+    # Пошук записів за іменем
+    def find(self, g):
+        # self.book.find("Jane")
+        self.g = g
         pass
 
-    def delete(self):
+    # Видалення записів за іменем
+    def delete(self, j):
+        # self.book.delete("Jane")
+        self.j = j
         pass
+
 
 
 if __name__ == "__main__":
