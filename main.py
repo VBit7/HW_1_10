@@ -23,10 +23,10 @@ class Name(Field):
     Клас для зберігання імені контакту.
     Обов'язкове поле.
     """
-    
-    # реалізація класу
-
-    pass
+    def __init__(self, value):
+        if not value.isalpha():
+            raise ValueError("Invalid name: name should consist of letters only")
+        super().__init__(value)
 
 
 class Phone(Field):
@@ -35,10 +35,10 @@ class Phone(Field):
     Має валідацію формату (10 цифр).
     Необов'язкове поле з телефоном та таких один запис Record може містити декілька.
     """
-    
-    # реалізація класу
-                # Реалізовано валідацію номера телефону (має бути 10 цифр)
-    pass
+    def __init__(self, value):
+        if not value.isdigit() or len(value) != 10:
+            raise ValueError("Invalid phone: phone should consist of 10 digits only")
+        super().__init__(value)
 
 
 class Record:
@@ -46,31 +46,32 @@ class Record:
     Клас для зберігання інформації про контакт, включаючи ім'я та список телефонів.
     Відповідає за логіку додавання/видалення/редагування необов'язкових полів та зберігання обов'язкового поля Name
     """
-    
     def __init__(self, name):
         self.name = Name(name)
         self.phones = []
     
     # Додавання телефонів
-    def add_phone(self, x):
-        self.x = x
-        pass
+    def add_phone(self, phone):
+        phone = Phone(phone)
+        self.phones.append(phone)
 
     # Видалення телефонів
-    def remove_phone(self, a):
-        self.a = a
-        pass
+    def remove_phone(self, phone):
+        self.phones = [num for num in self.phones if num.value != phone]
 
     # Редагування телефонів
-    def edit_phone(self, s, d):
-        self.s = s
-        self.d = d
-        pass
+    def edit_phone(self, old_phone, new_phone):
+        if not self.find_phone(old_phone):
+            raise ValueError("Phone not found")
+        self.remove_phone(old_phone)
+        self.add_phone(new_phone)
 
     # Пошук телефону
-    def find_phone(self, y):
-        self.y = y
-        pass
+    def find_phone(self, phone):
+        for p in self.phones:
+            if p.value == phone:
+                return p
+        return None
 
     def __str__(self):
         return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
@@ -83,22 +84,17 @@ class AddressBook(UserDict):
     """
 
     # Додавання записів
-    def add_record(self, f):
-        self.f = f
-        pass
+    def add_record(self, record):
+        self.data[record.name.value] = record
 
     # Пошук записів за іменем
-    def find(self, g):
-        # self.book.find("Jane")
-        self.g = g
-        pass
+    def find(self, name):
+        return self.data.get(name, None)
 
     # Видалення записів за іменем
-    def delete(self, j):
-        # self.book.delete("Jane")
-        self.j = j
-        pass
-
+    def delete(self, name):
+        if name in self.data:
+            del self.data[name]
 
 
 if __name__ == "__main__":
